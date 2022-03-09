@@ -135,7 +135,7 @@ class HBNBCommand(cmd.Cmd):
                 new_dict[key] = value
         return new_dict
 
-    def do_create(self, args):
+    def do_create(self, arg):
         """ Create an object of any class"""
         args = arg.split()
         if len(args) == 0:
