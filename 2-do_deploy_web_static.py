@@ -4,8 +4,6 @@ a Fabric script (based on the file 1-pack_web_static.py) that
 distributes an archive to your web servers, using the function do_deploy
 """
 
-
-from re import T
 from fabric.api import run, put, env
 from os.path import exists
 
@@ -22,7 +20,7 @@ def do_deploy(archive_path):
         return False
 
     try:
-        file = archive_path.split('/')[-1]
+        file = archive_path.split('/')[1]
         file_name = file.split('.')[0]
         path = "/data/web_static/releases/"
         put(archive_path, '/tmp/')
@@ -34,5 +32,5 @@ def do_deploy(archive_path):
         run('rm -rf /data/web_static/current')
         run('ln -s {}{}/ /data/web_static/current'.format(path, file_name))
         return True
-    except Exception:
+    except:
         return False
