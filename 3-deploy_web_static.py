@@ -38,13 +38,13 @@ def do_deploy(archive_path):
         file_name = file.split('.')[0]
         path = "/data/web_static/releases/"
         put(archive_path, '/tmp/')
-        run('mkdir -p {}{}/'.format(path, file_name))
-        run('tar -xzf /tmp/{} -C {}{}/'.format(file, path, file_name))
-        run('rm -rf /tmp/{}'.format(file))
-        run('mv {0}{1}/web_static/* {0}{1}'.format(path, file_name))
-        run('rm -rf {}{}/web_static'.format(path, file_name))
-        run('rm -rf /data/web_static/current')
-        run('ln -s {}{}/ /data/web_static/current'.format(path, file_name))
+        run('sudo mkdir -p {}{}/'.format(path, file_name))
+        run('sudo tar -xzf /tmp/{} -C {}{}/'.format(file, path, file_name))
+        run('sudo rm -rf /tmp/{}'.format(file))
+        run('sudo mv {0}{1}/web_static/* {0}{1}'.format(path, file_name))
+        run('sudo rm -rf {}{}/web_static'.format(path, file_name))
+        run('sudo rm -rf /data/web_static/current')
+        run('sudo ln -s {}{}/ /data/web_static/current'.format(path, file_name))
         return True
     except Exception:
         return False
