@@ -22,9 +22,8 @@ def do_deploy(archive_path):
         return False
 
     try:
-        file = archive_path.split('/')[1]
+        file = archive_path.split('/')[-1]
         file_name = file.split('.')[0]
-        print(file_name)
         path = "/data/web_static/releases/"
         put(archive_path, '/tmp/')
         run('mkdir -p {}{}/'.format(path, file_name))
