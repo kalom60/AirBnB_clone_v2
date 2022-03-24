@@ -7,10 +7,9 @@ distributes an archive to the web servers
 from fabric.api import env
 
 env.hosts = [
-    '35.227.37.173',
-    '18.207.135.118'
+    'ubuntu@35.227.37.173',
+    'ubuntu@18.207.135.118'
 ]
-env.user = 'ubuntu'
 
 
 do_pack = __import__('1-pack_web_static').do_pack
