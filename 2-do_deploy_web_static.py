@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 """This script will distribute archive in webserver"""
 
-from fabric.api import *
-from fabric.operations import run, put
-import os
+from fabric.api import run, put, env
+from os.path import exists
 
 env.hosts = [
     'ubuntu@35.227.37.173',
@@ -12,24 +11,21 @@ env.hosts = [
 
 
 def do_deploy(archive_path):
-    """This function will depoly archives"""
-    if not os.path.exists(archive_path):
+    """depoly archives"""
+    if exists(archive_path) is False:
         return False
-    try:
+    else:
         file = archive_path.split('/')[1]
         arch = file.split(".")[0]
-        path = '/data/web_static/releases/'
         put(archive_path, "/tmp/")
-        run("mkdir -p {}{}/".format(path, arch))
-        run("tar -xzf /tmp/{} -C {}{}/"
-            .format(file, path, arch))
+        run("mkdir -p /data/web_static/releases/{}/".format(arch))
+        run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/"
+            .format(file, arch))
         run("rm /tmp/{}".format(file))
-        run("mv {}{}/web_static/* \
-            {}{}/".format(path, arch, path, arch))
-        run("rm -rf {}{}/web_static/".format(path, arch))
+        run("mv /data/web_static/releases/{}/web_static/* \
+            /data/web_static/releases/{}/".format(arch, arch))
+        run("rm -rf /data/web_static/releases/{}/web_static/".format(arch))
         run("rm -rf /data/web_static/current")
-        run("ln -s {}{}/ /data/web_static/current"
-            .format(path, arch))
+        run("ln -s /data/web_static/releases/{}/ /data/web_static/current"
+            .format(arch))
         return True
-    except:
-        return False
