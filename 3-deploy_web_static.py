@@ -53,6 +53,7 @@ def do_deploy(archive_path):
 
 
 def deploy():
+    """Deploy"""
     try:
         archive_path = do_pack()
         deployed = do_deploy(archive_path)
