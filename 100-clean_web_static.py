@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Function that deploys """
-from fabric.api import *
-import os
+from fabric.api import run, env, local
 
 env.hosts = [
     '35.227.37.173',
@@ -11,15 +10,11 @@ env.user = "ubuntu"
 
 
 def do_clean(number=0):
-    number = 1 if int(number) == 0 else int(number)
-
-    archives = sorted(os.listdir("versions"))
-    [archives.pop() for i in range(number)]
-    with lcd("versions"):
-        [local("rm ./{}".format(a)) for a in archives]
-
-    with cd("/data/web_static/releases"):
-        archives = run("ls -tr").split()
-        archives = [a for a in archives if "web_static_" in a]
-        [archives.pop() for i in range(number)]
-        [run("rm -rf ./{}".format(a)) for a in archives]
+    """remove archive"""
+    if number >= "2":
+        local("cd versions/ && rm $(ls -t | awk 'NR>{}')".format(number))
+        run("cd /data/web_static/releases && rm -rf $(ls -t | awk 'NR>{}')"
+            .format(number))
+    elif number == "1" or number == "0":
+        local("cd versions/ && rm $(ls -t | awk 'NR>1')")
+        run("cd /data/web_static/releases && rm -rf $(ls -t | awk 'NR>1')")
