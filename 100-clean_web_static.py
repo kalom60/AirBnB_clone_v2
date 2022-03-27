@@ -11,10 +11,10 @@ env.user = "ubuntu"
 
 def do_clean(number=0):
     """remove archive"""
-    if number == "1" or number == "0":
-        local("cd versions/ && rm $(ls -t | awk 'NR>1')")
-        run("cd /data/web_static/releases && rm -rf $(ls -t | awk 'NR>1')")
-    elif number >= "2":
+    if number >= "2":
         local("cd versions/ && rm $(ls -t | awk 'NR>{}')".format(number))
         run("cd /data/web_static/releases && rm -rf $(ls -t | awk 'NR>{}')"
             .format(number))
+    elif number == "1" or number == "0":
+        local("cd versions/ && rm $(ls -t | awk 'NR>1')")
+        run("cd /data/web_static/releases && rm -rf $(ls -t | awk 'NR>1')")
