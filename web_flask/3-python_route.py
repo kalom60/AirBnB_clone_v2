@@ -24,11 +24,12 @@ def c(text):
     return 'c {}'.format(text)
 
 
-@app.route('/python/(text)', strict_slashes=False)
+@app.route('/python', strict_slashes=False)
+@app.route('/python/<text>', strict_slashes=False)
 def python(text='is cool'):
     """returns "Python ", followed by value of text variable"""
     text = text.replace('_', ' ')
-    return 'python {}'.format(text)
+    return 'Python {}'.format(text)
 
 
 if __name__ == '__main__':
